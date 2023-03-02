@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import filter from './slices/filterSlice';
+import news from './slices/oneNews';
 
 export const store = configureStore({
-  reducer: { filter },
+  reducer: { news },
 });

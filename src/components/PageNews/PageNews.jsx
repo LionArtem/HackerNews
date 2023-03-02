@@ -1,12 +1,11 @@
 import React from 'react';
 import convertTimestamp from '../.././utils/convertTimestamp/convertTimestamp';
+import { useSelector, useDispatch } from 'react-redux';
 
-export default function PageNews(props) {
-  const { url, title, time, by, kids } = props.oneNews;
+export default function PageNews() {
+  const oneNews = useSelector((state) => state.news.oneNews);
+  const { url, title, time, by, kids } = oneNews;
   const [comments, setComments] = React.useState([]);
-
-  console.log(kids);
-  console.log('fff');
 
   const getListComments = (c) => {
     fetch(`https://hacker-news.firebaseio.com/v0/item/${c}.json?print=pretty`)
@@ -22,16 +21,14 @@ export default function PageNews(props) {
       .catch((res) => console.log(res));
   };
 
-  function name() {
+  React.useEffect(() => {
     if (kids !== undefined && kids.length > 0) {
       kids.forEach((element) => {
         getListComments(element);
       });
     }
-  }
-  name();
+  }, []);
 
-  // console.log(comments);
   return (
     <div>
       <a href={url}>
@@ -40,12 +37,18 @@ export default function PageNews(props) {
       </a>
       <span>{convertTimestamp(time)}</span>
       <h2>{by}</h2>
-      {`comments:${kids && <p>{kids.length}</p>}`}
-      <ul>
-        {/* {comments.map((c, i) => {
-          <li key={i}>{c.text}</li>;
-        })} */}
-      </ul>
+      {kids === undefined || kids.length < 0 ? (
+        <p>comments:0</p>
+      ) : (
+        <>
+          <p>comments:{kids.length}</p>
+          <ul>
+            {comments.map((c, i) => (
+              <li key={i}>{c.text}</li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }
