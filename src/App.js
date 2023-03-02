@@ -1,72 +1,41 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-
-import Footer from './components/Footer';
-import Header from './components/Header';
-import Home from './peges/Home';
-
-import Department from './components/Department/Department.jsx';
-import NodFound from './peges/nodFound';
-import Node from './components/Department/Node/Node.jsx';
-
-import Search from './components/search/Search';
-
-import {
-  chargeYardList,
-  stoveNumberFive,
-  meshReplacement,
-  ropeReplacement,
-} from './utils/constants';
-import Description from './components/Department/Node/Description';
+import { Route, Routes } from 'react-router-dom';
+import Header from './components/Header/Header';
+import News from './components/News/News';
+import NodFound from './components/nodFound';
+import PageNews from './components/PageNews/PageNews';
 
 function App() {
+  const [oneNews, cetOneNews] = React.useState([]);
+
+  // React.useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     getListAllNews();
+  //   }, 60000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
   return (
     <div className="page">
-      <Header />
-      <Search />
-      <main className="main">
-        <Routes>
-          <Route path="/server_fsc" element={<Home />} />
-          <Route
-            path="/charge_yard"
-            element={<Department title="Шихтовый двор" list={chargeYardList} />}
-          />
-          <Route
-            path="/coke-rumble"
-            element={
-              <Node
-                job="Замена сетки"
-                link={'/mesh-replacement'}
-                titleNode="Грохот кокса"
-              />
-            }
-          />
-          <Route
-            path="/mesh-replacement"
-            element={<Description listJob={meshReplacement} />}
-          />
-          <Route
-            path="/one_department"
-            element={<Department title="Печь №5" list={stoveNumberFive} />}
-          />
-          <Route
-            path="/roll-winch"
-            element={
-              <Node
-                job="Замена каната"
-                link={'/rope-replacement'}
-                titleNode="Лебедка подката"
-              />
-            }
-          />
-          <Route
-            path="/rope-replacement"
-            element={<Description listJob={ropeReplacement} />}
-          />
-          <Route path="*" element={<NodFound />} />
-        </Routes>
+      <header className="">
+        <Header />
+      </header>
+      <main>
+        <section>
+          
+          <Routes>
+            <Route
+              path="/"
+              element={<News cetOneNews={cetOneNews} />}
+            />
+            <Route path="/news" element={<PageNews oneNews={oneNews} />} />
+            <Route path="*" element={<NodFound />} />
+          </Routes>
+        </section>
       </main>
-      <Footer />
+      <footer>
+        <p>ArtemGreen</p>
+      </footer>
     </div>
   );
 }

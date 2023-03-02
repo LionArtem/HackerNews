@@ -1,8 +1,0 @@
-.header {
-  max-width: 100%;
-  padding: 5px 5px;
-  border-bottom: 1px solid rgb(118, 117, 117);
-  display: flex;
-  justify-content: space-between;
-  overflow: hidden;
-}
