@@ -8,7 +8,7 @@ import PageNews from './components/PageNews/PageNews';
 function App() {
   return (
     <div className="page">
-      <header className="">
+      <header>
         <Header />
       </header>
       <main>

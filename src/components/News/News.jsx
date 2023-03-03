@@ -5,16 +5,18 @@ import convertTimestamp from '../.././utils/convertTimestamp/convertTimestamp';
 import { useSelector, useDispatch } from 'react-redux';
 import { setOneNews } from '../../redax/slices/oneNews';
 
+import Style from './News.module.scss';
+
 export default function News() {
   const dispatch = useDispatch();
   const oneNews = useSelector((state) => state.news.oneNews);
 
   const [news, setNews] = React.useState([]);
-
   const [show, setShow] = React.useState(true);
 
   const getListAllNews = () => {
     setNews([]);
+    setShow(true);
     fetch(' https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty')
       .then((res) => {
         if (res.ok) {
@@ -59,15 +61,17 @@ export default function News() {
 
   return (
     <>
-      <button onClick={() => getListAllNews()}>Обновить</button>
+      <button className={Style.button} onClick={() => getListAllNews()}>
+        Update news list
+      </button>
       {show ? (
         <>
-          <p>загрузка</p>
+          <p>Loading...</p>
         </>
       ) : (
         news.map((n, i) => (
-          <div key={i}>
-            <Link to="/news">
+          <div className={Style.root} key={i}>
+            <Link className={Style.link} to="/news">
               <h1
                 onClick={() => {
                   dispatch(setOneNews(n));
@@ -76,9 +80,17 @@ export default function News() {
                 {n.title}
               </h1>
             </Link>
-            <p>{n.score}</p>
-            <h2>{n.by}</h2>
-            <span>{convertTimestamp(n.time)}</span>
+            <div className={Style.info}>
+              <p>{`autor: ${n.by}`}</p>
+              <p>{`score: ${n.score}`}</p>
+              <span>{convertTimestamp(n.time)}</span>
+            </div>
+            <div
+              onClick={() => window.scrollTo(0, 0)}
+              className={Style.button_top}
+            >
+              top
+            </div>
           </div>
         ))
       )}

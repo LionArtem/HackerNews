@@ -8,7 +8,6 @@ export default function PageNews() {
   const oneNews = useSelector((state) => state.news.oneNews);
   const { url, title, time, by, kids, id } = oneNews;
   const [comments, setComments] = React.useState([]);
-  console.log(oneNews);
 
   const getLinkNews = (id) => {
     fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`)
@@ -54,7 +53,7 @@ export default function PageNews() {
       </a>
       <span>{convertTimestamp(time)}</span>
       <h2>{by}</h2>
-      <button onClick={()=>getLinkNews(id)}>обновить комментарии</button>
+      <button onClick={() => getLinkNews(id)}>обновить комментарии</button>
       {kids === undefined || kids.length < 0 ? (
         <p>comments:0</p>
       ) : (

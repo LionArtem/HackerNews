@@ -1,3 +1,16 @@
-.root{
-    border-bottom: 1px solid white;
+.link {
+  all: unset;
+  display: block;
+  padding: 10px 0px 0px 5px;
+  background-color: rgb(255, 102, 0);
+  border-bottom: 1px solid white;
+  &:hover{
+    cursor: pointer;
+  }
+}
+
+.title {
+  height: 45px;
+  margin: 0;
+  padding: 0;
 }
