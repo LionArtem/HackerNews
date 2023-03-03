@@ -6,15 +6,6 @@ import NodFound from './components/nodFound';
 import PageNews from './components/PageNews/PageNews';
 
 function App() {
-  // const [oneNews, cetOneNews] = React.useState([]);
-
-  // React.useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     getListAllNews();
-  //   }, 60000);
-  //   return () => clearInterval(interval);
-  // }, []);
-
   return (
     <div className="page">
       <header className="">
@@ -23,8 +14,6 @@ function App() {
       <main>
         <section>
           <Routes>
-            {/* <Route path="/" element={<News cetOneNews={cetOneNews} />} />
-            <Route path="/news" element={<PageNews oneNews={oneNews} />} /> */}
             <Route path="/" element={<News />} />
             <Route path="/news" element={<PageNews />} />
             <Route path="*" element={<NodFound />} />

@@ -8,11 +8,12 @@ import { setOneNews } from '../../redax/slices/oneNews';
 export default function News() {
   const dispatch = useDispatch();
   const oneNews = useSelector((state) => state.news.oneNews);
-  
+
   const [news, setNews] = React.useState([]);
 
   const [show, setShow] = React.useState(true);
-  React.useEffect(() => {
+
+  const getListAllNews = () => {
     setNews([]);
     fetch(' https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty')
       .then((res) => {
@@ -23,18 +24,17 @@ export default function News() {
       })
       .then((res) => {
         const arrIdNews = res.slice([0], [100]);
-        // getLinkNews(arrIdNews);
-        // console.log(arrIdNews);
-        // setNews(getLinkNews(arrIdNews));
         arrIdNews.forEach((n) => getLinkNews(n));
         setShow(false);
       })
       .catch((res) => console.log(res));
+  };
+
+  React.useEffect(() => {
+    getListAllNews();
   }, []);
 
   const getLinkNews = (news) => {
-    //let newNews = [];
-
     fetch(
       `https://hacker-news.firebaseio.com/v0/item/${news}.json?print=pretty`
     )
@@ -45,15 +45,21 @@ export default function News() {
         return Promise.reject(`Ошибка: ${res.status}`);
       })
       .then((res) => {
-        //newNews.push(res);
         setNews((prev) => [...prev, res]);
       })
       .catch((res) => console.log(res));
   };
 
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      getListAllNews();
+    }, 60000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
-      {/* <button onClick={() => getListAllNews()}>Обновить</button> */}
+      <button onClick={() => getListAllNews()}>Обновить</button>
       {show ? (
         <>
           <p>загрузка</p>

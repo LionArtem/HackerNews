@@ -9,7 +9,6 @@ const oneNewsSlice = createSlice({
   initialState,
   reducers: {
     setOneNews(state, action) {
-      console.log(action);
       state.oneNews = action.payload;
     },
   },
