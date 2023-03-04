@@ -3,10 +3,14 @@ import convertTimestamp from '../.././utils/convertTimestamp/convertTimestamp';
 import { useSelector, useDispatch } from 'react-redux';
 import { setOneNews } from '../../redax/slices/oneNews';
 
+import Style from './Page.module.scss';
+
 export default function PageNews() {
   const dispatch = useDispatch();
   const oneNews = useSelector((state) => state.news.oneNews);
-  const { url, title, time, by, kids, id } = oneNews;
+  const newsStorage = JSON.parse(localStorage.getItem('myKey'));
+  //console.log(newsStorage);
+  const { url, title, time, by, kids, id } = newsStorage;
   const [comments, setComments] = React.useState([]);
 
   const getLinkNews = (id) => {
@@ -24,6 +28,7 @@ export default function PageNews() {
   };
 
   const getListComments = (c) => {
+    setComments([]);
     fetch(`https://hacker-news.firebaseio.com/v0/item/${c}.json?print=pretty`)
       .then((res) => {
         if (res.ok) {
@@ -43,28 +48,31 @@ export default function PageNews() {
         getListComments(element);
       });
     }
+    //console.log(kids);
+    dispatch(setOneNews(newsStorage));
   }, []);
 
   return (
-    <div>
-      <a href={url}>
-        <p>{url}</p>
-        <h1>{title}</h1>
+    <div className={Style.root}>
+      <h1>{title}</h1>
+      <a target="_blank" rel="noreferrer" href={url}>
+        <p className={Style.link}>Link</p>
       </a>
+      <p className={Style.autor}>{`autor: ${by}`}</p>
       <span>{convertTimestamp(time)}</span>
-      <h2>{by}</h2>
-      <button onClick={() => getLinkNews(id)}>обновить комментарии</button>
+
+      <button onClick={() => getLinkNews(id)}>update comments</button>
       {kids === undefined || kids.length < 0 ? (
-        <p>comments:0</p>
+        <p className={Style.caunter_comments}>comments:0</p>
       ) : (
-        <>
-          <p>comments:{kids.length}</p>
+        <div className={Style.comments}>
+          <p className={Style.caunter_comments}>comments:{kids.length}</p>
           <ul>
             {comments.map((c, i) => (
               <li key={i}>{c.text}</li>
             ))}
           </ul>
-        </>
+        </div>
       )}
     </div>
   );

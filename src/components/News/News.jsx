@@ -17,7 +17,7 @@ export default function News() {
   const getListAllNews = () => {
     setNews([]);
     setShow(true);
-    fetch(' https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty')
+    fetch(' https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty')//бек мягко говоря не айс)
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -38,7 +38,7 @@ export default function News() {
 
   const getLinkNews = (news) => {
     fetch(
-      `https://hacker-news.firebaseio.com/v0/item/${news}.json?print=pretty`
+      `https://hacker-news.firebaseio.com/v0/item/${news}.json?print=pretty` //почеиу нельзя просто список новостей получить))
     )
       .then((res) => {
         if (res.ok) {
@@ -74,7 +74,8 @@ export default function News() {
             <Link className={Style.link} to="/news">
               <h1
                 onClick={() => {
-                  dispatch(setOneNews(n));
+                  //dispatch(setOneNews(n));
+                  localStorage.setItem("myKey",JSON.stringify(n));
                 }}
               >
                 {n.title}
